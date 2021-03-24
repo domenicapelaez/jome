@@ -1,0 +1,45 @@
+---
+
+- name: Configurar VSFTPD
+  template: src=vsftpd.conf.j2 dest=/etc/vsftpd.conf
+
+- name: Adding nologin shell
+  lineinfile:
+    state: present
+    dest: /etc/shells
+    line: "/usr/sbin/nologin"
+    regexp: "^/usr/sbin/nologin"
+    insertafter: EOF
+    
+- name: Iniciar VSFTPD
+  service: name=vsftpd state=started enabled=true
+
+- name: Crear directorio para utilizar en monstaftp
+  file:
+    path: /home/ftp
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0777
+
+- name: Copiar monstaftp
+  copy:
+    src: ./files/mftp
+    dest: /var/www/html
+
+- name: Eliminar index.html
+  command: rm /var/www/html/index.html
+
+- name: Copiar fichero ports.conf
+  copy:
+    src: ./files/ports.conf
+    dest: /etc/apache2/ports.conf
+
+- name: Instalación PhP
+  become: true
+  apt: 
+    name: "{{ paquetesPhp }}"
+    state: latest
+
+- name: Reiniciar Apache2
+  service: name=apache2 state=restarted enabled=true

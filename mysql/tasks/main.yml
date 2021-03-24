@@ -1,0 +1,3 @@
+- import_tasks: instalar.yml
+
+- import_tasks: configurar.yml

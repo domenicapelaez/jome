@@ -1,0 +1,14 @@
+ftp_ip: 180.170.160.1
+
+paquetesPhp:
+  - php
+  - php-cli
+  - php-fpm
+  - php-gd
+  - php-common
+  - php-mysql
+  - php-xml
+  - php-zip
+  - php-curl
+  - php-mbstring
+  - php-xmlrpc

@@ -1,0 +1,13 @@
+- name: Configuración mysql
+  hosts: sgbd
+  remote_user: root
+  become: true
+  roles:
+    - { role: mysql }
+
+- name: Configuración VSFTPD
+  hosts: webservers
+  remote_user: root
+  become: true
+  roles:
+    - { role: ftp }

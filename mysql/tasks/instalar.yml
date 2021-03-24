@@ -1,0 +1,18 @@
+- name: Actualizacion de repositorios
+  become: true
+  apt:
+    upgrade: 'yes'
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Instalar PyMySql
+  become: true
+  apt:
+    name: python3-pymysql
+    state: latest
+
+- name: Instalar MySQL
+  become: true
+  apt:
+    name: mariadb-server
+    state: latest

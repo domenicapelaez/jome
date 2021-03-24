@@ -1,0 +1,31 @@
+- name: Iniciar MySql
+  service: name=mysql state=started enabled=true
+
+- name: Archivo my.conf
+  copy: src=./files/my.conf dest=/tmp/file
+
+- name: Actualizar contraseña de root
+  mysql_user:
+    name: "{{ user_mysql }}"
+    password: "{{ pass_mysql }}"
+    login_user: "{{ user_mysql }}"
+    login_password: "{{ pass_mysql }}"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Crear bbdd
+  mysql_db:
+    login_user: "{{ user_mysql }}"
+    login_password: "{{ pass_mysql }}"
+    name: "{{ nombre_bbdd }}"
+    state: present
+
+- name: Crear usuario bbdd
+  mysql_user:
+    login_user: "{{ user_mysql }}"
+    login_password: "{{ pass_mysql }}"
+    name: "{{ nombre_user }}"
+    password: "{{ pass_mysql }}"
+    priv: "ftp.*:ALL,GRANT"
+    state: present
